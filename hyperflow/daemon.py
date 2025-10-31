@@ -34,6 +34,9 @@ class HyperFlowDaemon:
         self.config_path = Path.home() / ".config/hyperflow/workflows.json"
         self.pid_file = Path.home() / ".config/hyperflow/hyperflow.pid"
         
+        # File watching
+        self.last_modified_time = 0
+        
         # Load rules
         self.rules = []
         self.load_rules()
@@ -49,12 +52,29 @@ class HyperFlowDaemon:
                 with open(self.config_path, 'r') as f:
                     self.rules = json.load(f)
                 print(f"Loaded {len(self.rules)} rules from {self.config_path}")
+                
+                # Update last modified time
+                self.last_modified_time = self.config_path.stat().st_mtime
             else:
                 print(f"Config file not found: {self.config_path}")
                 self.rules = []
         except Exception as e:
             print(f"Error loading rules: {e}")
             self.rules = []
+
+    def check_config_changes(self):
+        """Check if config file has been modified and reload if needed"""
+        try:
+            if self.config_path.exists():
+                mtime = self.config_path.stat().st_mtime
+                if mtime > self.last_modified_time:
+                    print("Detected config file changes, reloading rules...")
+                    self.load_rules()
+                    return True
+            return False
+        except Exception as e:
+            print(f"Error checking config file changes: {e}")
+            return False
 
     def reload_handler(self, signum, frame):
         """Handle SIGHUP signal to reload rules"""
@@ -221,6 +241,9 @@ class HyperFlowDaemon:
             return
             
         print(f"Processing event: {event_type} with data {event_data}")
+        
+        # Check config changes before processing event
+        self.check_config_changes()
         
         # Check all rules
         for rule in self.rules:
