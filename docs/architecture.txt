@@ -1,0 +1,115 @@
+HyperFlow System Architecture
+=============================
+
++-------------------------+
+| Hyprland Event Socket   |
+| (.socket2.sock)         |
++-----------+-------------+
+            |
+            | 1. Real-time Events
+            v
++-----------+-------------+
+| HyperFlow Daemon        |
+|                         |
+| - Listens to events     |
+| - Matches rules         |
+| - Executes actions      |
++-----+----------+--------+
+      |          |
+      |          |
+      | 2. Read  | 4. Execute
+      |  Rules   |  Commands
+      v          v
++-----+----+  +-------------+
+| workflows|  | Hyprland    |
+| .json    |  | Command     |
++-----+----+  | Socket      |
+      ^       | (.sock)     |
+      |       +-------------+
+      |
+      | 3. Write Rules
+      |
++-----+------------+
+| HyperFlow Editor |
+| (GUI)            |
++------------------+
+
+Supported Event Types
+=====================
+
+HyperFlow supports various Hyprland event types with their respective data structures:
+
+1. openwindow/closewindow: address, workspace, class, title
+   Example: openwindow>>56181fa90ee0,1,firefox,Save As
+
+2. activewindow: class, title
+   Example: activewindow>>firefox,Save As
+
+3. activewindowv2: address
+   Example: activewindowv2>>56181fa90ee0
+
+4. workspace: name
+   Example: workspace>>1
+
+5. workspacev2: name, id
+   Example: workspacev2>>1,1
+
+6. destroyworkspacev2: name, id
+   Example: destroyworkspacev2>>2,2
+
+7. windowtitle: address
+   Example: windowtitle>>56181fa90ee0
+
+8. windowtitlev2: address, title
+   Example: windowtitlev2>>56181fa90ee0,Save As
+
+9. activelayout: keyboard, layout
+   Example: activelayout>>hl-virtual-keyboard-fcitx5,English (US)
+
+Data Flow Example
+=================
+
+User opens Spotify
+         |
+         v
+Hyprland broadcasts: openwindow>>[address],[workspace],spotify,[title]
+         |
+         v
+HyperFlow Daemon receives event
+         |
+         v
+Daemon matches rule wf_001 (Auto-move Spotify to workspace 5)
+         |
+         v
+Daemon executes: hyprctl dispatch movetoworkspace 5
+         |
+         v
+Spotify window moved to workspace 5
+
+Editor Features
+===============
+
+The HyperFlow Editor GUI provides:
+
+1. Rule Management:
+   - Create, edit, and delete automation rules
+   - Enable/disable individual rules
+   - Visual representation of rule configurations
+
+2. Trigger Configuration:
+   - Selection from all supported event types
+   - Optional debounce settings to prevent excessive triggering
+
+3. Condition Building:
+   - Dynamic property selection based on chosen event type
+   - Multiple operator options (equals, contains, etc.)
+   - Flexible value matching
+
+4. Action Definition:
+   - Add multiple shell commands to execute
+   - Support for any hyprctl command or system utility
+
+5. Configuration Management:
+   - Save rules to JSON configuration file
+   - Load existing configurations
+   - Validate rule syntax before saving

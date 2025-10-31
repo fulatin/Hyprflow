@@ -1,0 +1,157 @@
+[
+  {
+    "id": "wf_001",
+    "name": "Auto-move Spotify to workspace 5",
+    "enabled": true,
+    "trigger": {
+      "type": "openwindow",
+      "debounce": 100
+    },
+    "conditions": [
+      {
+        "property": "class",
+        "operator": "equals",
+        "value": "spotify"
+      }
+    ],
+    "actions": [
+      {
+        "command": "hyprctl dispatch movetoworkspace 5"
+      }
+    ]
+  },
+  {
+    "id": "wf_002",
+    "name": "Set dark theme when switching to Code workspace",
+    "enabled": true,
+    "trigger": {
+      "type": "workspace"
+    },
+    "conditions": [
+      {
+        "property": "name",
+        "operator": "equals",
+        "value": "Code"
+      }
+    ],
+    "actions": [
+      {
+        "command": "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
+      }
+    ]
+  },
+  {
+    "id": "wf_003",
+    "name": "Auto-floating for file dialogs",
+    "enabled": true,
+    "trigger": {
+      "type": "openwindow"
+    },
+    "conditions": [
+      {
+        "property": "title",
+        "operator": "contains",
+        "value": "Save"
+      }
+    ],
+    "actions": [
+      {
+        "command": "hyprctl dispatch togglefloating active"
+      }
+    ]
+  },
+  {
+    "id": "wf_004",
+    "name": "Move to workspace 2 when opening terminal",
+    "enabled": false,
+    "trigger": {
+      "type": "openwindow"
+    },
+    "conditions": [
+      {
+        "property": "class",
+        "operator": "equals",
+        "value": "kitty"
+      }
+    ],
+    "actions": [
+      {
+        "command": "hyprctl dispatch movetoworkspace 2"
+      }
+    ]
+  },
+  {
+    "id": "wf_005",
+    "name": "Toggle special workspace when opening scratchpad app",
+    "enabled": true,
+    "trigger": {
+      "type": "openwindow"
+    },
+    "conditions": [
+      {
+        "property": "class",
+        "operator": "equals",
+        "value": "org.kde.dolphin"
+      }
+    ],
+    "actions": [
+      {
+        "command": "hyprctl dispatch togglespecialworkspace"
+      }
+    ]
+  },
+  {
+    "id": "wf_006",
+    "name": "Notification for active layout changes",
+    "enabled": false,
+    "trigger": {
+      "type": "activelayout"
+    },
+    "conditions": [],
+    "actions": [
+      {
+        "command": "notify-send 'Layout changed' 'Keyboard layout has been updated'"
+      }
+    ]
+  },
+  {
+    "id": "wf_007",
+    "name": "Auto-close notification windows",
+    "enabled": true,
+    "trigger": {
+      "type": "openwindow"
+    },
+    "conditions": [
+      {
+        "property": "class",
+        "operator": "equals",
+        "value": "notification"
+      }
+    ],
+    "actions": [
+      {
+        "command": "sleep 5 && hyprctl dispatch closewindow active"
+      }
+    ]
+  },
+  {
+    "id": "wf_008",
+    "name": "Focus Firefox when opening specific website",
+    "enabled": true,
+    "trigger": {
+      "type": "windowtitlev2"
+    },
+    "conditions": [
+      {
+        "property": "title",
+        "operator": "contains",
+        "value": "GitHub"
+      }
+    ],
+    "actions": [
+      {
+        "command": "hyprctl dispatch focuswindow Firefox"
+      }
+    ]
+  }
+]
