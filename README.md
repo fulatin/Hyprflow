@@ -11,6 +11,7 @@ HyperFlow is a visual automation assistant for Hyprland, designed to make window
 - **Extensible Actions**: Execute any shell command, including `hyprctl` commands
 - **Hot-reload Configuration**: Reload rules without restarting the daemon
 - **Automatic Configuration Monitoring**: Daemon automatically detects changes to workflow.json and reloads configuration
+- **Double-click Rule Editing**: Double-click any rule in the editor to quickly edit it
 
 ## Installation
 
