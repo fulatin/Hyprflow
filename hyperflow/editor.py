@@ -287,6 +287,7 @@ class HyperFlowEditor(QMainWindow):
         
         # Rules list
         self.rules_list = QListWidget()
+        self.rules_list.itemDoubleClicked.connect(self.edit_rule_on_double_click)  # 添加双击事件连接
         layout.addWidget(QLabel("Automation Rules:"))
         layout.addWidget(self.rules_list)
         
@@ -343,6 +344,15 @@ class HyperFlowEditor(QMainWindow):
             self.rules.append(rule_data)
             self.refresh_rules_list()
     
+    def edit_rule_on_double_click(self, item):
+        """Edit rule when double clicked"""
+        # 获取项目在列表中的行号
+        row = self.rules_list.row(item)
+        # 设置为当前选中行
+        self.rules_list.setCurrentRow(row)
+        # 调用编辑规则函数
+        self.edit_selected_rule()
+    
     def edit_rule(self):
         """Edit selected rule"""
         current_row = self.rules_list.currentRow()
@@ -350,6 +360,14 @@ class HyperFlowEditor(QMainWindow):
             QMessageBox.warning(self, "Warning", "Please select a rule to edit.")
             return
         
+        self.edit_selected_rule()
+    
+    def edit_selected_rule(self):
+        """Edit currently selected rule"""
+        current_row = self.rules_list.currentRow()
+        if current_row < 0:
+            return
+            
         item = self.rules_list.item(current_row)
         rule_data = item.data(Qt.UserRole)
         
