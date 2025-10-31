@@ -17,7 +17,7 @@ HyperFlow is a visual automation assistant for Hyprland, designed to make window
 
 1. Clone the repository:
    ```
-   git clone https://your-repo-url/hyperflow.git
+   git clone https://github.com/fulatin/Hyprflow.git
    cd hyperflow
    ```
 
@@ -230,7 +230,3 @@ To prevent performance issues with high-frequency events (like `activewindow`), 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues and pull requests.
-
-## License
-
-MIT License

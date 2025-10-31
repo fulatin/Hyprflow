@@ -1,6 +1,6 @@
-# HyperFlow: Hyprland 可视化自动化助手
+# Hyperflow: Hyprland 可视化自动化助手
 
-HyperFlow 是一个为 Hyprland 设计的可视化自动化助手，旨在让每个人都能够轻松实现窗口管理器自动化。通过简单的图形界面编辑器和强大的后台程序，您可以创建复杂的自动化工作流而无需编写脚本。
+Hyperflow 是一个为 Hyprland 设计的可视化自动化助手，旨在让每个人都能够轻松实现窗口管理器自动化。通过简单的图形界面编辑器和强大的后台程序，您可以创建复杂的自动化工作流。
 
 ## 特性
 
@@ -17,7 +17,7 @@ HyperFlow 是一个为 Hyprland 设计的可视化自动化助手，旨在让每
 
 1. 克隆仓库：
    ```
-   git clone https://your-repo-url/hyperflow.git
+   git clone https://github.com/fulatin/Hyprflow
    cd hyperflow
    ```
 
@@ -55,15 +55,15 @@ python main.py cli [子命令]
 ```
 
 CLI 子命令：
-- `start`：启动 HyperFlow 后台程序
-- `stop`：停止 HyperFlow 后台程序
-- `restart`：重启 HyperFlow 后台程序
+- `start`：启动 Hyperflow 后台程序
+- `stop`：停止 Hyperflow 后台程序
+- `restart`：重启 Hyperflow 后台程序
 - `status`：显示后台程序状态
 - `reload`：重新加载后台程序配置
 
 ## 工作原理
 
-HyperFlow 通过连接 Hyprland 的 IPC 套接字提供自动化功能：
+Hyperflow 通过连接 Hyprland 的 IPC 套接字提供自动化功能：
 
 1. **事件监听**：连接到 Hyprland 的 `.socket2.sock` 以接收实时事件
 2. **规则匹配**：将事件与您配置的规则进行比较
